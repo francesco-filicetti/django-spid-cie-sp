@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:cie="https://www.cartaidentita.interno.gov.it/saml-extensions" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:idpdisc="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol" xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui" entityID="https://example.host.it/cieSaml2/metadata/" ID="ID-cie-metadata">
+<ds:Signature>
+<ds:SignedInfo>
+<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+<ds:Reference URI="#ID-cie-metadata">
+<ds:Transforms>
+<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+</ds:Transforms>
+<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+<ds:DigestValue></ds:DigestValue>
+</ds:Reference>
+</ds:SignedInfo>
+<ds:SignatureValue></ds:SignatureValue>
+<ds:KeyInfo>
+<ds:X509Data>
+<ds:X509Certificate>CERTIFICATE</ds:X509Certificate>
+</ds:X509Data>
+</ds:KeyInfo>
+</ds:Signature>
+<md:SPSSODescriptor AuthnRequestsSigned="true" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+<md:Extensions>
+<mdui:UIInfo>
+<mdui:DisplayName xml:lang="en">DISPLAY NAME EN</mdui:DisplayName>
+<mdui:DisplayName xml:lang="it">DISPLAY NAME IT</mdui:DisplayName>
+<mdui:Description xml:lang="en">DESCRIPTION EN</mdui:Description>
+<mdui:Description xml:lang="it">DESCRIPTION IT</mdui:Description>
+<mdui:Keywords xml:lang="it">KEYWORDS IT</mdui:Keywords>
+<mdui:Keywords xml:lang="en">KEYWORDS EN</mdui:Keywords>
+<mdui:Logo height="115" width="115"/>
+<mdui:InformationURL xml:lang="en">https://example.host.it/?lang=en</mdui:InformationURL>
+<mdui:InformationURL xml:lang="it">https://example.host.it/?lang=it</mdui:InformationURL>
+<mdui:PrivacyStatementURL xml:lang="en">https://example.host.it/privacy/</mdui:PrivacyStatementURL>
+<mdui:PrivacyStatementURL xml:lang="it">https://example.host.it/privacy/</mdui:PrivacyStatementURL>
+</mdui:UIInfo>
+</md:Extensions>
+<md:KeyDescriptor use="signing">
+<ds:KeyInfo>
+<ds:X509Data>
+<ds:X509Certificate>CERTIFICATE</ds:X509Certificate>
+</ds:X509Data>
+</ds:KeyInfo>
+</md:KeyDescriptor>
+<md:KeyDescriptor use="encryption">
+<ds:KeyInfo>
+<ds:X509Data>
+<ds:X509Certificate>CERTIFICATE</ds:X509Certificate>
+</ds:X509Data>
+</ds:KeyInfo>
+</md:KeyDescriptor>
+<md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://example.host.it/cieSaml2/ls/post/"/>
+<md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+<md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://example.host.it/cieSaml2/acs/post/" index="0" isDefault="true"/>
+<md:AttributeConsumingService index="0">
+<md:ServiceName xml:lang="it">https://example.host.it/cieSaml2/metadata/</md:ServiceName>
+<md:RequestedAttribute Name="name" isRequired="true"/>
+<md:RequestedAttribute Name="familyName" isRequired="true"/>
+<md:RequestedAttribute Name="dateOfBirth" isRequired="true"/>
+<md:RequestedAttribute Name="fiscalNumber" isRequired="true"/>
+</md:AttributeConsumingService>
+</md:SPSSODescriptor>
+<md:Organization>
+<md:OrganizationName xml:lang="en">ORGANIZATION NAME EN</md:OrganizationName>
+<md:OrganizationName xml:lang="it">ORGANIZATION NAME IT</md:OrganizationName>
+<md:OrganizationDisplayName xml:lang="en">ORGANIZATION DISPLAY NAME EN</md:OrganizationDisplayName>
+<md:OrganizationDisplayName xml:lang="it">ORGANIZATION DISPLAY NAME IT</md:OrganizationDisplayName>
+<md:OrganizationURL xml:lang="en">https://example.host.it/?lang=en</md:OrganizationURL>
+<md:OrganizationURL xml:lang="it">https://example.host.it/?lang=it</md:OrganizationURL>
+</md:Organization>
+<md:ContactPerson contactType="administrative">
+<md:Extensions>
+<cie:Public/>
+<cie:IPACode>IPA CODE</cie:IPACode>
+<cie:Municipality>MUNICIPALITY</cie:Municipality>
+</md:Extensions>
+<md:Company>COMPANY</md:Company>
+<md:EmailAddress>PERSON EMAIL ADDRESS</md:EmailAddress>
+<md:TelephoneNumber>PERSON TELEPHONE NUMBER</md:TelephoneNumber>
+</md:ContactPerson>
+</md:EntityDescriptor>

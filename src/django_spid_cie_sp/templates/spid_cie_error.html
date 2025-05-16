@@ -1,0 +1,51 @@
+{% extends "spid_cie_base.html" %}
+
+{% load django_spid_cie_sp_tags %}
+{% load static %}
+
+
+{% block title %}Errore{% endblock title %}
+{% block head_imports %}
+<style>
+    .btn {
+      display: inline-block;
+      font-weight: 400;
+      color: #fff;
+      background-color: #06c;
+      border: 1px solid #06c;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      text-align: center;
+      text-decoration: none;
+      vertical-align: middle;
+      cursor: pointer;
+      transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    }
+
+    .btn:hover {
+      background-color: #036;
+      border-color: #036;
+    }
+
+    .btn:active {
+      background-color: #036;
+      border-color: #036;
+    }
+
+    .btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+  </style>
+
+{% endblock head_imports %}
+
+{% block content %}
+{% settings_value "LOGIN_URL" as LOGIN_URL %}
+<h1 style="margin-top: 0;">Ops! Qualcosa è andato storto</h1>
+<p style="margin-bottom: 2rem">
+    <b>Dettaglio</b>: {{ error_msg }}
+</p>
+<a class="btn" href="{{ LOGIN_URL }}"><b>Torna al login</b></a>
+{% endblock content %}

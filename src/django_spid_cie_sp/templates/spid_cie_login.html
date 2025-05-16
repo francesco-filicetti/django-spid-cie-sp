@@ -1,0 +1,72 @@
+{% extends "spid_cie_base.html" %}
+
+{% load django_spid_cie_sp_tags %}
+{% load static %}
+
+
+{% block title %}Accedi{% endblock title %}
+
+{% block head_imports %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/spid-sp-access-button.min.css' %}" />
+<script>
+    {% settings_value "SPID_PROD" as SPID_PROD %}
+    {% settings_value "SPID_ENTITY_ID_PREPROD" as SPID_ENTITY_ID_PREPROD %}
+    const spid_login_url = "{% url 'django_spid_cie_sp:spid_saml2_login' %}";
+    const spid_prod = {% if SPID_PROD %}true{% else %}false{% endif %};
+    const spid_entity_id_preprod = "{{ SPID_ENTITY_ID_PREPROD }}";
+</script>
+<script src="{% static 'js/spid-idps.js' %}"></script>
+{% endblock head_imports %}
+
+{% block content %}
+{% settings_value "HOSTNAME" as HOSTNAME %}
+<h1 style="margin-top: 0;">{{ HOSTNAME }}</h1>
+<h2>Accedi al servizio</h2>
+<p>
+    SPID è il sistema di accesso che consente di utilizzare,
+    con un'identità digitale unica, i servizi online della
+    Pubblica Amministrazione e dei privati accreditati.
+</p>
+<div style="text-align: center">
+    <a href="#" class="italia-it-button italia-it-button-size-m button-spid" spid-idp-button="#spid-idp-button-large-get" aria-haspopup="true" aria-expanded="false">
+        <span class="italia-it-button-icon">
+            <img src="{% static 'img/spid-ico-circle-bb.svg' %}" onerror="this.src='img/spid-ico-circle-bb.png'; this.onerror=null;" alt="" />
+        </span>
+        <span class="italia-it-button-text">Entra con SPID</span>
+    </a>
+    <div id="spid-idp-button-large-get" class="spid-idp-button spid-idp-button-tip spid-idp-button-relative">
+        <ul id="spid-idp-list-large-root-get" class="spid-idp-button-menu" data-spid-remote aria-labelledby="spid-idp">
+            <li><a class="dropdown-item" href="https://www.spid.gov.it">Maggiori informazioni</a></li>
+            <li><a class="dropdown-item" href="https://www.spid.gov.it/richiedi-spid">Non hai SPID?</a></li>
+            <li><a class="dropdown-item" href="https://www.spid.gov.it/serve-aiuto">Serve aiuto?</a></li>
+         </ul>
+    </div>
+</div>
+
+<hr style="color: #e7e7e7; border-color: #fff; margin: 20px 0">
+
+{% settings_value "CIE_PROD" as CIE_PROD %}
+{% settings_value "CIE_ENTITY_ID_PROD" as CIE_ENTITY_ID_PROD %}
+{% settings_value "CIE_ENTITY_ID_PREPROD" as CIE_ENTITY_ID_PREPROD %}
+
+<p>
+    CIE è lo schema di identificazione che consente l'accesso
+    ai servizi digitali erogati in rete di pubbliche amministrazioni
+    e privati, mediante l'impiego della CIE, come previsto
+    dall'art. 64 del Codice dell'Amministrazione Digitale.
+</p>
+<div style="text-align: center">
+    <form method="get" action="{% url 'django_spid_cie_sp:cie_saml2_login' %}">
+        <input type="hidden" name="idp" value="{% if CIE_PROD %}{{ CIE_ENTITY_ID_PROD }}{% else %}{{ CIE_ENTITY_ID_PREPROD }}{% endif %}">
+        <button type="submit" class="italia-it-button italia-it-button-size-m button-spid">
+            <span class="italia-it-button-icon">
+                <img src="/static/img/cie_white.svg" alt="">
+            </span>
+            <span class="italia-it-button-text">Entra con CIE</span>
+        </button>
+    </form>
+</div>
+
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/spid-sp-access-button.min.js' %}"></script>
+{% endblock content %}
