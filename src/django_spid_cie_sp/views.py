@@ -53,10 +53,10 @@ error_logger = logging.getLogger('spid_cie.error')
 
 class MultiSPMixin:
     def get_saml_client(self, request):
-        if request.path.startswith('/spidSaml2/'):
+        if request.path.startswith(f'/{settings.SPID_SAML2_PREFIX}/'):
             config = get_saml_config(request)
             return SPIDSaml2Client(config)
-        elif request.path.startswith('/cieSaml2/'):
+        elif request.path.startswith(f'/{settings.CIE_SAML2_PREFIX}/'):
             config = get_saml_config(request)
             return CIESaml2Client(config)
         else:

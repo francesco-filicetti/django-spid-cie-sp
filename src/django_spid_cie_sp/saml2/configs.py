@@ -28,7 +28,6 @@ SP_COMMON_CONFIG = {
     "want_assertions_signed": True,
     "want_response_signed": True,
     "name_id_format": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
-    "attribute_consumer_service_index": 0,
     "signing_algorithm":  saml2.xmldsig.SIG_RSA_SHA256,
     "digest_algorithm":  saml2.xmldsig.DIGEST_SHA256,
 }
@@ -37,19 +36,20 @@ def get_saml_config(request=None):
     # Analizza l"URL per capire se SPID o CIE
     path = request.path if request else ""
     config = {}
-    if path.startswith("/spidSaml2/"):
+    if path.startswith(f"/{settings.SPID_SAML2_PREFIX}/"):
         config = {
-            "entityid": f"https://{settings.HOSTNAME}/spidSaml2/metadata/",
+            "entityid": getattr(settings, "SPID_SP_ENTITY_ID", f"https://{settings.HOSTNAME}/{settings.SPID_SAML2_PREFIX}/metadata/"),
             "service": {
                 "sp": {
                     "endpoints": {
                         "assertion_consumer_service": [
-                            (f"https://{settings.HOSTNAME}/spidSaml2/acs/post/", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"),
+                            (f"https://{settings.HOSTNAME}/{settings.SPID_SAML2_PREFIX}/acs/post/", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"),
                         ],
                         "single_logout_service": [
-                            (f"https://{settings.HOSTNAME}/spidSaml2/ls/post/", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"),
+                            (f"https://{settings.HOSTNAME}/{settings.SPID_SAML2_PREFIX}/ls/post/", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"),
                         ],
                     },
+                    "attribute_consumer_service_index": settings.SPID_SP_ATTRIBUTE_CONSUMER_SERVICE_INDEX,
                 },
             },
             "metadata":  {
@@ -61,19 +61,20 @@ def get_saml_config(request=None):
             },
 
         }
-    elif path.startswith("/cieSaml2/"):
+    elif path.startswith(f"/{settings.CIE_SAML2_PREFIX}/"):
         config = {
-            "entityid": f"https://{settings.HOSTNAME}/cieSaml2/metadata/",
+            "entityid": getattr(settings, "CIE_SP_ENTITY_ID", f"https://{settings.HOSTNAME}/{settings.CIE_SAML2_PREFIX}/metadata/"),
             "service": {
                 "sp": {
                     "endpoints": {
                         "assertion_consumer_service": [
-                            (f"https://{settings.HOSTNAME}/cieSaml2/acs/post/", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"),
+                            (f"https://{settings.HOSTNAME}/{settings.CIE_SAML2_PREFIX}/acs/post/", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"),
                         ],
                         "single_logout_service": [
-                            (f"https://{settings.HOSTNAME}/cieSaml2/ls/post/", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"),
+                            (f"https://{settings.HOSTNAME}/{settings.CIE_SAML2_PREFIX}/ls/post/", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"),
                         ],
                     },
+                    "attribute_consumer_service_index": settings.CIE_SP_ATTRIBUTE_CONSUMER_SERVICE_INDEX,
                 },
             },
             "metadata": {
