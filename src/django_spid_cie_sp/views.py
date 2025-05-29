@@ -30,13 +30,13 @@ from .saml2.configs import get_saml_config
 
 
 def cie_metadata_view(request):
-    if not CIE_SP_METADATA or not os.path.exists(settings.CIE_SP_METADATA):
+    if not settings.CIE_SP_METADATA or not os.path.exists(settings.CIE_SP_METADATA):
         raise Http404("Il file dei metadati CIE non è stato trovato.")
     return FileResponse(open(settings.CIE_SP_METADATA, "rb"), content_type="application/samlmetadata+xml")
 
 
 def spid_metadata_view(request):
-    if not SPID_SP_METADATA or not os.path.exists(settings.SPID_SP_METADATA):
+    if not settings.SPID_SP_METADATA or not os.path.exists(settings.SPID_SP_METADATA):
         raise Http404("Il file dei metadati CIE non è stato trovato.")
     return FileResponse(open(settings.SPID_SP_METADATA, "rb"), content_type="application/samlmetadata+xml")
 
