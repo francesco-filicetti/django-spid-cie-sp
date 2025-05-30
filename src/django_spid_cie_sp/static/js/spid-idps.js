@@ -41,7 +41,7 @@ function spid_populate() {
                                     <img class="spid-idp-button-logo" src="https://demo.spid.gov.it/img/idp-logo.png" alt="Demo SPID Validator" />
                                 </button>
                               </form>`
-            spid_elements[0].prepend(li)
+            //~ spid_elements[0].prepend(li)
 
             let li2 = document.createElement('li');
             li.className = 'spid-idp-button-link';
