@@ -42,6 +42,13 @@ function spid_populate() {
                                 </button>
                               </form>`
             spid_elements[0].prepend(li)
+
+            let li2 = document.createElement('li');
+            li.className = 'spid-idp-button-link';
+            li2.innerHTML = `<a href="https://validator.spid.gov.it/" target="_blank" style="text-align: center; padding: 15px 0; font-size: 1.2rem;">
+                                <span>SPID Validator</span>
+                            </a>`
+            spid_elements[0].prepend(li2)
         }
     }
 }
