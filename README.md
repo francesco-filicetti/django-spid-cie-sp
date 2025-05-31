@@ -57,7 +57,7 @@ LOGOUT_REDIRECT_URL='/'
 ```
 
 ##### LOG
-Gestione dei log degli accessi con SPID/CIE require_debug_falseda conservare per almeno 24 mesi (DPCM 24 ottobre 2014, articolo 13, comma 2),.  
+Gestione dei log degli accessi con SPID/CIE da conservare per almeno 24 mesi (DPCM 24 ottobre 2014, articolo 13, comma 2),.  
 Inserisci o integra nel file settings del progetto.
 ```
 LOGGING = {
