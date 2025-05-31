@@ -9,11 +9,15 @@
 {% block head_imports %}
 <link type="text/css" rel="stylesheet" href="{% static 'css/spid-sp-access-button.min.css' %}" />
 <script>
-    {% settings_value "SPID_PROD" as SPID_PROD %}
     {% settings_value "SPID_ENTITY_ID_PREPROD" as SPID_ENTITY_ID_PREPROD %}
+    {% settings_value "SPID_PROD" as SPID_PROD %}
+    {% settings_value "SPID_URL_VALIDATION" as SPID_URL_VALIDATION %}
+    {% settings_value "SPID_VALIDATION" as SPID_VALIDATION %}
+    const spid_entity_id_preprod = "{{ SPID_ENTITY_ID_PREPROD }}";
     const spid_login_url = "{% url 'django_spid_cie_sp:spid_saml2_login' %}";
     const spid_prod = {% if SPID_PROD %}true{% else %}false{% endif %};
-    const spid_entity_id_preprod = "{{ SPID_ENTITY_ID_PREPROD }}";
+    const spid_url_validation = "{{ SPID_URL_VALIDATION }}";
+    const spid_validation = {% if SPID_VALIDATION %}true{% else %}false{% endif %};
 </script>
 <script src="{% static 'js/spid-idps.js' %}"></script>
 {% endblock head_imports %}

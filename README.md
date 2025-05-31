@@ -146,10 +146,14 @@ else:
 ### Switch ambienti prod/preprod di SPID/CIE
 
 Per interfacciarsi con gli ambienti di produzione o test (default) degli IdP basta effettuare nel file di settings l'override delle variabili
-```
-CIE_PROD = False/True
-SPID_PROD = False/True
-```
+
+* **CIE_PROD** = *False/True* (default *False*)  
+se *True* permette di autenticarsi all'ambiente di produzione dell'IdP CIE, altrimenti a quello di test;
+* **SPID_PROD** = *False/True* (default *False*)  
+se *True* viene mostrato l'elenco dei providers SPID cliccando sullo spid-button, altrimenti viene presa in considerazione la variabile seguente;
+* **SPID_VALIDATION** = *False/True* (default *False*)  
+ha effetto solo se SPID_PROD è *False*.  
+Se *True* mostra il collegamento al [validator ufficiale di SPID](https://validator.spid.gov.it/) per permettere ad AgID di effettuare il collaudo del SP ([regole tecniche](https://www.spid.gov.it/cos-e-spid/diventa-fornitore-di-servizi/procedura-tecnica/)), altrimenti permette di testare l'autenticazione con l'IdP di test [https://demo.spid.gov.it/samlsso](https://demo.spid.gov.it/samlsso).
 
 ---
 

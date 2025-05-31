@@ -15,9 +15,11 @@ SPID_SAML2_PREFIX = "spidSaml2"
 SPID_SP_ATTRIBUTE_CONSUMER_SERVICE_INDEX = 0
 SPID_SP_METADATA = ""
 SPID_PROD = False
+SPID_VALIDATION = False
 SPID_ENTITIES_METADATA_URL = "https://registry.spid.gov.it/entities-idp"
 SPID_ENTITY_ID_PREPROD = "https://demo.spid.gov.it"
 SPID_METADATA_URL_PREPROD = "https://demo.spid.gov.it/metadata.xml"
+SPID_URL_VALIDATION = "https://validator.spid.gov.it/"
 
 # COMMON
 KEY_FILE = ""

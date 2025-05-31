@@ -28,7 +28,15 @@ function spid_populate() {
                     }
                 });
         }
-        else {
+        else if (spid_validation) {
+            let li = document.createElement('li');
+            li.className = 'spid-idp-button-link';
+            li.innerHTML = `<a href="` + spid_url_validation + `" target="_blank" style="text-align: center; padding: 15px 0; font-size: 1.2rem;">
+                                <span>SPID Validator</span>
+                            </a>`
+            spid_elements[0].prepend(li)
+        }
+        else { // not prod & not validation
             const att = document.createAttribute("data-idp");
             att.value = spid_entity_id_preprod;
             let li = document.createElement('li');
@@ -40,15 +48,8 @@ function spid_populate() {
                                     <span class="spid-sr-only">Demo SPID Validator</span>
                                     <img class="spid-idp-button-logo" src="https://demo.spid.gov.it/img/idp-logo.png" alt="Demo SPID Validator" />
                                 </button>
-                              </form>`
-            //~ spid_elements[0].prepend(li)
-
-            let li2 = document.createElement('li');
-            li.className = 'spid-idp-button-link';
-            li2.innerHTML = `<a href="https://validator.spid.gov.it/" target="_blank" style="text-align: center; padding: 15px 0; font-size: 1.2rem;">
-                                <span>SPID Validator</span>
-                            </a>`
-            spid_elements[0].prepend(li2)
+                            </form>`
+            spid_elements[0].prepend(li)
         }
     }
 }
