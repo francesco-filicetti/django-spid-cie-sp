@@ -90,7 +90,12 @@ class MultiSPLoginView(MultiSPMixin, LoginView):
                 f"path={request.path} | "
                 f"ip={request.META.get('REMOTE_ADDR')}"
             )
-            return self.handle_error(request, 'IdP mancante')
+            return TemplateResponse(
+                request=request,
+                template="spid_cie_error.html",
+                context={"error_msg": "IdP mancante"},
+                status=400
+            )
 
         name_id_policy = NameIDPolicy(
             format=NAMEID_FORMAT_TRANSIENT,
