@@ -71,6 +71,9 @@ class MultiSPMixin:
 
 class MultiSPLoginView(MultiSPMixin, LoginView):
     def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("/")
+
         # Costruisci manualmente il client SAML
         try:
             saml_client = self.get_saml_client(request)
