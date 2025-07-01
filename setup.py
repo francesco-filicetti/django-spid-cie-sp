@@ -43,6 +43,7 @@ setup(
         'Programming Language :: Python :: 3',
     ],
     install_requires=[
-        'djangosaml2'
+        'djangosaml2',
+        'design-django-theme'
     ],
 )

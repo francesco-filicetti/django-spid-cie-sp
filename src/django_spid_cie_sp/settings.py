@@ -1,3 +1,8 @@
+# GENERAL
+LOGO_URL = ""
+# ~ LOCAL_LOGIN_ALLOWED = False
+# ~ LOCAL_REGISTRATION_ALLOWED = False
+
 # CIE
 # ~ CIE_SP_ENTITY_ID = "" override in django.conf.settings
 CIE_SAML2_PREFIX = "cieSaml2"

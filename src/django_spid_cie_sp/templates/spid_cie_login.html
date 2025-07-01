@@ -1,12 +1,13 @@
-{% extends "spid_cie_base.html" %}
+{% extends 'bootstrap-italia-base.html' %}
+
 
 {% load django_spid_cie_sp_tags %}
 {% load static %}
 
 
-{% block title %}Accedi{% endblock title %}
+{% block page_title %}Accedi{% endblock page_title %}
 
-{% block head_imports %}
+{% block extra_head %}
 <link type="text/css" rel="stylesheet" href="{% static 'css/spid-sp-access-button.min.css' %}" />
 <script>
     {% settings_value "SPID_ENTITY_ID_PREPROD" as SPID_ENTITY_ID_PREPROD %}
@@ -20,57 +21,157 @@
     const spid_validation = {% if SPID_VALIDATION %}true{% else %}false{% endif %};
 </script>
 <script src="{% static 'js/spid-idps.js' %}"></script>
-{% endblock head_imports %}
+<style>
+.main-body {
+    border-top: 5px solid #06c;
+}
+</style>
+{% endblock extra_head %}
 
-{% block content %}
-{% settings_value "HOSTNAME" as HOSTNAME %}
-<h1 style="margin-top: 0;">{{ HOSTNAME }}</h1>
-<h2>Accedi al servizio</h2>
-<p>
-    SPID è il sistema di accesso che consente di utilizzare,
-    con un'identità digitale unica, i servizi online della
-    Pubblica Amministrazione e dei privati accreditati.
-</p>
-<div style="text-align: center">
-    <a href="#" class="italia-it-button italia-it-button-size-m button-spid" spid-idp-button="#spid-idp-button-large-get" aria-haspopup="true" aria-expanded="false">
-        <span class="italia-it-button-icon">
-            <img src="{% static 'img/spid-ico-circle-bb.svg' %}" onerror="this.src='img/spid-ico-circle-bb.png'; this.onerror=null;" alt="" />
-        </span>
-        <span class="italia-it-button-text">Entra con SPID</span>
-    </a>
-    <div id="spid-idp-button-large-get" class="spid-idp-button spid-idp-button-tip spid-idp-button-relative">
-        <ul id="spid-idp-list-large-root-get" class="spid-idp-button-menu" data-spid-remote aria-labelledby="spid-idp">
-            <li><a class="dropdown-item" href="https://www.spid.gov.it">Maggiori informazioni</a></li>
-            <li><a class="dropdown-item" href="https://www.spid.gov.it/richiedi-spid">Non hai SPID?</a></li>
-            <li><a class="dropdown-item" href="https://www.spid.gov.it/serve-aiuto">Serve aiuto?</a></li>
-         </ul>
-    </div>
-</div>
+{% block header_wrapper %}{% endblock header_wrapper %}
 
-<hr style="color: #e7e7e7; border-color: #fff; margin: 20px 0">
+{% block messages %}{% endblock messages %}
 
+{% block centered_container %}
+
+{% settings_value "LOGO_URL" as LOGO_URL %}
+{% settings_value "LOCAL_LOGIN_URL" as LOCAL_LOGIN_URL %}
+{% settings_value "ALLOW_USER_REGISTRATION" as ALLOW_USER_REGISTRATION %}
+{% settings_value "LOCAL_REGISTRATION_URL" as LOCAL_REGISTRATION_URL %}
 {% settings_value "CIE_PROD" as CIE_PROD %}
 {% settings_value "CIE_ENTITY_ID_PROD" as CIE_ENTITY_ID_PROD %}
 {% settings_value "CIE_ENTITY_ID_PREPROD" as CIE_ENTITY_ID_PREPROD %}
 
-<p>
-    CIE è lo schema di identificazione che consente l'accesso
-    ai servizi digitali erogati in rete di pubbliche amministrazioni
-    e privati, mediante l'impiego della CIE, come previsto
-    dall'art. 64 del Codice dell'Amministrazione Digitale.
-</p>
-<div style="text-align: center">
-    <form method="get" action="{% url 'django_spid_cie_sp:cie_saml2_login' %}">
-        <input type="hidden" name="idp" value="{% if CIE_PROD %}{{ CIE_ENTITY_ID_PROD }}{% else %}{{ CIE_ENTITY_ID_PREPROD }}{% endif %}">
-        <button type="submit" class="italia-it-button italia-it-button-size-m button-spid">
-            <span class="italia-it-button-icon">
-                <img src="/static/img/cie_white.svg" alt="">
-            </span>
-            <span class="italia-it-button-text">Entra con CIE</span>
-        </button>
-    </form>
-</div>
+<div class="container" style="max-width: 920px">
 
+    {% if messages %}
+    <div class="mb-5">
+        {% block centered_messages %}
+        {% for message in messages %}
+            <div class="mb-0 alert alert-{{ message.tags }}
+                       {% if 'error' in message.tags%} alert-danger{% endif %}
+                       {% if not forloop.first %}mt-1{% endif %}"
+                       role="alert">{{ message|safe }}</div>
+            {% endfor %}
+        {% endblock centered_messages %}
+    </div>
+    {% endif %}
+
+    {% if LOGO_URL %}
+    <div class="text-center my-4">
+        <div class="col-4 offset-4 col-lg-2 offset-lg-5 mt-3 mt-lg-0">
+            <img src="{{ LOGO_URL }}" class="mb-5 mw-100"/>
+        </div>
+
+        <p class="h2" style="font-weight: normal">Accedi per continuare</p>
+        <p>Per accedere al servizio scegli uno dei seguenti metodi di autenticazione</p>
+    </div>
+    {% endif %}
+
+    <ul class="nav nav-tabs mt-5" id="myTab" role="tablist" style="justify-content: center">
+        <li class="nav-item">
+            <a class="nav-link active" id="tab2-tab" data-bs-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="true">
+                SPID
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab3-tab" data-bs-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">
+                CIE
+            </a>
+        </li>
+        {% if LOCAL_LOGIN_URL %}
+        <li class="nav-item">
+            <a class="nav-link" id="tab1-tab" data-bs-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="false">
+                Credenziali locali
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane p-4 fade show active" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <p>
+                        SPID è il sistema di accesso che consente di utilizzare,
+                        con un'identità digitale unica, i servizi online della
+                        Pubblica Amministrazione e dei privati accreditati.
+                    </p>
+                </div>
+                <div class="col-12 col-md-4 mt-4 mt-md-0">
+                    <div class="text-center button-container">
+                        <a href="#" class="italia-it-button italia-it-button-size-m button-spid w-auto" spid-idp-button="#spid-idp-button-large-get" aria-haspopup="true" aria-expanded="false">
+                            <span class="italia-it-button-icon">
+                                <img src="{% static 'img/spid-ico-circle-bb.svg' %}" onerror="this.src='img/spid-ico-circle-bb.png'; this.onerror=null;" alt="" />
+                            </span>
+                            <span class="italia-it-button-text">Entra con SPID</span>
+                        </a>
+                        <div id="spid-idp-button-large-get" class="spid-idp-button spid-idp-button-tip spid-idp-button-relative">
+                            <ul id="spid-idp-list-large-root-get" class="spid-idp-button-menu" data-spid-remote aria-labelledby="spid-idp">
+                                <li><a class="dropdown-item" href="https://www.spid.gov.it">Maggiori informazioni</a></li>
+                                <li><a class="dropdown-item" href="https://www.spid.gov.it/richiedi-spid">Non hai SPID?</a></li>
+                                <li><a class="dropdown-item" href="https://www.spid.gov.it/serve-aiuto">Serve aiuto?</a></li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane p-4 fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <p>
+                        CIE è lo schema di identificazione che consente l'accesso
+                        ai servizi digitali erogati in rete di pubbliche amministrazioni
+                        e privati, mediante l'impiego della CIE, come previsto
+                        dall'art. 64 del Codice dell'Amministrazione Digitale.
+                    </p>
+                </div>
+                <div class="col-12 col-md-4 mt-4 mt-md-0">
+                    <div class="text-center button-container">
+                        <form method="get" action="{% url 'django_spid_cie_sp:cie_saml2_login' %}">
+                            <input type="hidden" name="idp" value="{% if CIE_PROD %}{{ CIE_ENTITY_ID_PROD }}{% else %}{{ CIE_ENTITY_ID_PREPROD }}{% endif %}">
+                            <button type="submit" class="italia-it-button italia-it-button-size-m button-spid w-auto">
+                                <span class="italia-it-button-icon">
+                                    <img src="/static/img/cie_white.svg" alt="">
+                                </span>
+                                <span class="italia-it-button-text">Entra con CIE</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if LOCAL_LOGIN_URL %}
+        <div class="tab-pane p-4 fade" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <p>
+                        Accedi con le tue credenziali locali solo se non hai modo di usufruire
+                        di SPID o CIE.
+                    </p>
+                    {% if ALLOW_USER_REGISTRATION %}
+                    <a href="/{{ LOCAL_REGISTRATION_URL }}" target="_blank" style="font-weight: bold">
+                        Non possiedi un account? Registrati ora!
+                    </a>
+                    {% endif %}
+                </div>
+                <div class="col-12 col-md-4 mt-4 mt-md-0">
+                    <div class="text-center button-container">
+                        <a href="/{{ LOCAL_LOGIN_URL }}" class="italia-it-button italia-it-button-size-m button-spid w-auto">
+                            <span class="italia-it-button-text">Effettua l'accesso</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock centered_container %}
+
+{% block footer %}{% endblock footer %}
+
+{% block extra_scripts %}
 <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/spid-sp-access-button.min.js' %}"></script>
-{% endblock content %}
+{% endblock extra_scripts %}

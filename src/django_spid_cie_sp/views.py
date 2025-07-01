@@ -49,7 +49,7 @@ def spid_metadata_view(request):
 
 def login_choice(request):
     if request.user.is_authenticated:
-        return redirect(request.path)
+        return redirect("/")
     return render(request, "spid_cie_login.html")
 
 
