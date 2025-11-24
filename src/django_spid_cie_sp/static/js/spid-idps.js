@@ -8,8 +8,11 @@ function spid_populate() {
     let spid_elements = document.querySelectorAll('ul[data-spid-remote]')
     if (spid_elements.length > 0 ) {
         if (spid_prod) {
-            fetch(queryURL)
+            let controller = new AbortController();
+            let timeoutId = setTimeout(() => controller.abort(), 1000);
+            fetch(queryURL, { signal: controller.signal })
                 .then(function (response) {
+                    clearTimeout(timeoutId);
                     return response.json();
                 })
                 .then(function (idps) {
