@@ -6,6 +6,8 @@ from django.conf import settings
 
 from saml2.config import SPConfig
 
+from .. settings import SPID_METADATA_SOURCE
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -37,6 +39,9 @@ def get_saml_config(request=None):
     path = request.path if request else ""
     config = {}
     if path.startswith(f"/{settings.SPID_SAML2_PREFIX}/"):
+        metadata_src = getattr(settings, "SPID_METADATA_SOURCE", SPID_METADATA_SOURCE)
+        metadata_local_src = [f"{BASE_DIR}/metadata/spid-entities-idps.xml" if settings.SPID_PROD else f"{BASE_DIR}/metadata/spid-entities-idps-preprod.xml"] if metadata_src.get("local", False) else []
+        metadata_remote_src = [{"url": settings.SPID_ENTITIES_METADATA_URL if settings.SPID_PROD else settings.SPID_METADATA_URL_PREPROD}] if metadata_src.get("remote", False) else []
         config = {
             "entityid": getattr(settings, "SPID_SP_ENTITY_ID", f"https://{settings.HOSTNAME}/{settings.SPID_SAML2_PREFIX}/metadata/"),
             "service": {
@@ -53,13 +58,9 @@ def get_saml_config(request=None):
                 },
             },
             "metadata":  {
-                "remote": [
-                    {
-                        "url": settings.SPID_ENTITIES_METADATA_URL if settings.SPID_PROD else settings.SPID_METADATA_URL_PREPROD
-                    }
-                ]
+                "local": metadata_local_src,
+                "remote": metadata_remote_src
             },
-
         }
     elif path.startswith(f"/{settings.CIE_SAML2_PREFIX}/"):
         config = {

@@ -25,6 +25,7 @@ SPID_ENTITIES_METADATA_URL = "https://registry.spid.gov.it/entities-idp"
 SPID_ENTITY_ID_PREPROD = "https://demo.spid.gov.it"
 SPID_METADATA_URL_PREPROD = "https://demo.spid.gov.it/metadata.xml"
 SPID_URL_VALIDATION = "https://validator.spid.gov.it/"
+SPID_METADATA_SOURCE = {"local": True, "remote": True}
 
 # COMMON
 KEY_FILE = ""
