@@ -15,6 +15,18 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 SRC_FOLDER = 'src'
 PKG_NAME = 'django_spid_cie_sp'
 
+def get_requirements(fname='requirements.txt'):
+    regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
+    fopen = open(fname, 'r')
+    install_requirements = []
+    dependency_links=[]
+    packages = fopen.read().splitlines()
+    for ir in packages:
+        url = re.findall(regex, ir)
+        install_requirements.append(ir) if not url \
+        else dependency_links.append(url[0][0])
+    return [install_requirements, dependency_links]
+    
 setup(
     name=PKG_NAME,
     version='1.0.0',
@@ -40,8 +52,6 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
     ],
-    install_requires=[
-        'djangosaml2',
-        'design-django-theme'
-    ],
+    install_requires=get_requirements()[0],
+    dependency_links=get_requirements()[1],
 )
